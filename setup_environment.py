@@ -117,6 +117,7 @@ def main():
     install_package_if_needed(pip_path, "dlib", f"{pip_path} install dlib")
     install_package_if_needed(pip_path, "requests", f"{pip_path} install requests")
     install_package_if_needed(pip_path, "tqdm", f"{pip_path} install tqdm")
+    install_package_if_needed(pip_path, "gradio", f"{pip_path} install gradio")
     
     # Clone the main repository
     if not os.path.exists("photo_restoration"):
