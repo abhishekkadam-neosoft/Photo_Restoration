@@ -1,206 +1,219 @@
-# Bringing Old Photos Back to Life - Local Setup
+# 🖼️ Photo Restoration App
 
-This is a local setup for Microsoft's "Bringing Old Photos Back to Life" photo restoration model, converted from the original Colab notebook to work on your local PC.
+**Bringing Old Photos Back to Life** - A powerful AI-powered photo restoration application based on Microsoft's research.
 
-## Features
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
+[![PyTorch](https://img.shields.io/badge/PyTorch-1.8+-red.svg)](https://pytorch.org)
+[![Gradio](https://img.shields.io/badge/Gradio-3.0+-green.svg)](https://gradio.app)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-- **Photo Restoration**: Restore old, damaged, or low-quality photos
-- **Scratch Removal**: Remove scratches and physical damage from photos
-- **Face Enhancement**: Specialized face restoration and enhancement
-- **High Resolution**: Option for high-resolution output
-- **CPU/GPU Support**: Works on both CPU and GPU (CUDA)
+## 📖 Overview
 
-## Prerequisites
+This application uses Microsoft's advanced AI model to restore old, damaged, or low-quality photos. It can remove scratches, enhance faces, and improve overall image quality while preserving the original character of the photo.
 
-- Python 3.7 or higher
-- Git
-- Internet connection (for downloading models and dependencies)
+### ✨ Features
 
-## Quick Setup
+- **🖼️ Photo Restoration**: Restore old, damaged, or low-quality photos
+- **🔧 Scratch Removal**: Remove scratches and physical damage
+- **👤 Face Enhancement**: Specialized face restoration and enhancement
+- **⚡ GPU/CPU Support**: Works on both CPU and GPU for optimal performance
+- **🌐 Web Interface**: User-friendly Gradio web app
+- **📁 Batch Processing**: Process multiple images at once
+- **💾 High-Quality Downloads**: Download restored images in original quality
+- **🔍 Debug Tools**: Built-in system checks and face detection testing
 
-1. **Run the setup script**:
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Python 3.8 or higher**
+- **Linux/Ubuntu** (tested on Ubuntu 20.04+)
+- **8GB+ RAM** (16GB+ recommended)
+- **GPU with CUDA** (optional, for faster processing)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd inpainting_and_enhancing
+   ```
+
+2. **Run the setup script**
    ```bash
    python3 setup_environment.py
    ```
-
-2. **Use the helper script** (recommended):
-   ```bash
-   python3 activate_and_run.py
-   ```
-   This will give you options to test the setup or run photo restoration.
-
-3. **Or activate manually and run**:
-   ```bash
-   # On Linux/Mac:
-   source photo_restoration_env/bin/activate
    
-   # On Windows:
-   photo_restoration_env\Scripts\activate
-   
-   # Then run:
-   python test_setup.py  # Test the setup
-   python run_restoration.py  # Run photo restoration
+   This will:
+   - Create a Python virtual environment
+   - Install all required dependencies
+   - Clone the Microsoft photo restoration repository
+   - Download required model files (~2GB)
+
+3. **Activate the virtual environment**
+   ```bash
+   source venv/bin/activate
    ```
 
-## Usage
+## 🎯 Usage
 
-### Method 1: Helper Script (Recommended)
+### Web Interface (Recommended)
+
+1. **Start the Gradio app**
+   ```bash
+   python3 gradio_app.py
+   ```
+
+2. **Open your browser**
+   - Go to: `http://127.0.0.1:7860`
+   - Or use the launcher: `python3 run_gradio_app.py`
+
+3. **Upload and restore photos**
+   - Upload a photo with a visible face
+   - Adjust settings (GPU, scratch removal, high resolution)
+   - Click "Restore Photo"
+   - Download the restored image
+
+### Command Line Interface
+
+#### Single Image Restoration
 ```bash
-python3 activate_and_run.py
+python3 photo_restoration_runner.py \
+    --input_folder path/to/input \
+    --output_folder path/to/output \
+    --gpu_id 0 \
+    --with_scratch \
+    --hr
 ```
-This will automatically activate the virtual environment and give you options to:
-- Test the setup
-- Run photo restoration interactively
 
-### Method 2: Interactive Script
+#### Multiple Images
 ```bash
-# Activate virtual environment first
-source photo_restoration_env/bin/activate  # Linux/Mac
-# or
-photo_restoration_env\Scripts\activate     # Windows
-
-# Then run
-python run_restoration.py
-```
-This will prompt you for:
-- Input folder path (containing your old photos)
-- Output folder path (where results will be saved)
-- GPU usage preference
-- Scratch removal preference
-- High resolution preference
-
-### Method 3: Direct Function Call
-```python
-# Activate virtual environment first, then:
-from photo_restoration_runner import process_custom_photos
-
-# Process your photos
-process_custom_photos(
-    input_folder="path/to/your/photos",
-    output_folder="path/to/output",
-    gpu_id=-1,  # -1 for CPU, 0 for GPU
-    with_scratch=True,  # Enable scratch removal
-    hr=True  # Enable high resolution
-)
+python3 run_restoration.py \
+    --input_folder path/to/input \
+    --output_folder path/to/output \
+    --gpu_id -1 \
+    --with_scratch \
+    --hr
 ```
 
-### Method 4: Command Line (Advanced)
+### Testing
+
+Run the test script to verify everything is working:
 ```bash
-# Activate virtual environment first, then:
-cd photo_restoration
-python run.py --input_folder /path/to/input --output_folder /path/to/output --GPU -1 --with_scratch --HR
+python3 test_photo_restoration.py
 ```
 
-## Parameters
+## 🎛️ Settings & Options
 
-- `--input_folder`: Path to folder containing input images
-- `--output_folder`: Path to folder where results will be saved
-- `--GPU`: GPU ID (-1 for CPU, 0 for first GPU)
-- `--with_scratch`: Enable scratch removal mode
-- `--HR`: Enable high resolution mode
+### Processing Options
 
-## Supported Image Formats
+| Option | Description | Default |
+|--------|-------------|---------|
+| **Use GPU** | Enable CUDA acceleration | `False` |
+| **Remove Scratches** | Enable scratch/damage removal | `True` |
+| **High Resolution** | Enable high-resolution processing | `True` |
 
-- JPEG (.jpg, .jpeg)
-- PNG (.png)
-- BMP (.bmp)
-- TIFF (.tiff)
+### Image Requirements
 
-## Output Structure
+- **Format**: JPEG, PNG, BMP, TIFF
+- **Face Detection**: Must contain a detectable human face
+- **Size**: 100x100 to 2000x2000 pixels recommended
+- **Quality**: Clear, well-lit images work best
 
-The output folder will contain:
+## 📁 Project Structure
+
 ```
-output/
-├── final_output/          # Final restored images
-├── comparison_*.jpg       # Before/after comparisons
-└── intermediate_results/  # Intermediate processing steps
+inpainting_and_enhancing/
+├── 📄 README.md                    # This file
+├── 🐍 setup_environment.py         # Environment setup script
+├── 🌐 gradio_app.py               # Main Gradio web app
+├── 🚀 run_gradio_app.py           # Gradio app launcher
+├── 🖼️ photo_restoration_runner.py  # Single image processor
+├── 📦 run_restoration.py          # Batch image processor
+├── 🧪 test_photo_restoration.py   # Test script
+├── 🐛 debug_restoration.py        # Debug script
+├── 📁 photo_restoration/          # Microsoft's restoration code
+├── 📁 downloads/                  # Restored images (auto-created)
+├── 📁 test_results/              # Test outputs (auto-created)
+├── 📁 venv/                      # Python virtual environment
+└── 📄 .gitignore                 # Git ignore file
 ```
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
 ### Common Issues
 
-1. **CUDA/GPU Issues**:
-   - Use `--GPU -1` for CPU-only mode
-   - Install CUDA version compatible with your PyTorch version
+#### 1. **"No restored image found"**
+- **Cause**: No face detected in the image
+- **Solution**: Use images with clear, front-facing faces
 
-2. **Memory Issues**:
-   - Use CPU mode for large images
-   - Reduce image resolution before processing
+#### 2. **"photo_restoration directory not found"**
+- **Cause**: Setup script not run
+- **Solution**: Run `python3 setup_environment.py`
 
-3. **dlib Installation Issues**:
-   - On Windows: Install Visual Studio Build Tools
-   - On Linux: Install `build-essential` and `cmake`
-   - On Mac: Install Xcode Command Line Tools
+#### 3. **"CUDA out of memory"**
+- **Cause**: GPU memory insufficient
+- **Solution**: Use CPU mode or smaller images
 
-4. **Model Download Issues**:
-   - Check internet connection
-   - Try downloading manually from the provided URLs
+#### 4. **"Model files missing"**
+- **Cause**: Incomplete download
+- **Solution**: Re-run setup script
 
-5. **Path Issues**:
-   - Make sure you're running scripts from the main directory (not inside photo_restoration)
-   - Use absolute paths if relative paths don't work
+### Debug Tools
+
+Use the **"Debug/Check Setup"** tab in the Gradio app to:
+- ✅ Check if all model files are present
+- 🔍 Test face detection on your images
+- 📊 View system status
 
 ### Performance Tips
 
-- **GPU Mode**: Much faster processing, requires CUDA
-- **CPU Mode**: Slower but works on any system
-- **Batch Processing**: Process multiple images at once for efficiency
+- **GPU Mode**: 5-10x faster than CPU
 - **Image Size**: Larger images take longer to process
+- **High Resolution**: Better quality but slower
+- **Batch Processing**: More efficient for multiple images
 
-## Examples
+## 📊 System Requirements
 
-### Basic Photo Restoration
-```python
-from photo_restoration_runner import restore_photos
+### Minimum Requirements
+- **OS**: Ubuntu 18.04+ / Linux
+- **RAM**: 8GB
+- **Storage**: 10GB free space
+- **Python**: 3.8+
 
-restore_photos(
-    input_folder="old_photos",
-    output_folder="restored_photos",
-    gpu_id=-1
-)
-```
+### Recommended Requirements
+- **OS**: Ubuntu 20.04+ / Linux
+- **RAM**: 16GB+
+- **GPU**: NVIDIA with 4GB+ VRAM
+- **Storage**: 20GB+ free space
+- **Python**: 3.9+
 
-### Advanced Restoration with Scratch Removal
-```python
-from photo_restoration_runner import restore_photos
+## 🔬 Technical Details
 
-restore_photos(
-    input_folder="damaged_photos",
-    output_folder="restored_photos",
-    gpu_id=0,  # Use GPU
-    with_scratch=True,  # Remove scratches
-    hr=True  # High resolution
-)
-```
+### Models Used
+- **Face Detection**: dlib shape predictor (68 landmarks)
+- **Global Restoration**: PyTorch-based CNN
+- **Face Enhancement**: Specialized face restoration model
 
-## File Structure
+### Processing Pipeline
+1. **Face Detection**: Locate and analyze faces
+2. **Global Restoration**: Remove scratches and damage
+3. **Face Enhancement**: Specialized face restoration
+4. **Final Output**: High-quality restored image
 
-After setup, your directory will look like:
-```
-your_project/
-├── setup_environment.py          # Setup script
-├── activate_and_run.py           # Helper script
-├── photo_restoration_runner.py   # Main runner
-├── run_restoration.py            # Interactive script
-├── test_setup.py                 # Test script
-├── README.md                     # This file
-├── photo_restoration_env/        # Virtual environment
-└── photo_restoration/            # Microsoft repository
-    ├── run.py
-    ├── Face_Detection/
-    ├── Face_Enhancement/
-    └── Global/
-```
+### Dependencies
+- **PyTorch**: Deep learning framework
+- **OpenCV**: Image processing
+- **dlib**: Face detection
+- **PIL/Pillow**: Image handling
+- **Gradio**: Web interface
+- **NumPy**: Numerical computing
 
-## License
+## 📚 Citation
 
-This project is based on the Microsoft Bringing Old Photos Back to Life model. Please refer to the original repository for licensing information.
+If you use this work, please cite the original Microsoft paper:
 
-## Citation
-
-If you use this work, please cite the original paper:
-```
+```bibtex
 @inproceedings{wan2020bringing,
   title={Bringing Old Photos Back to Life},
   author={Wan, Ziyu and Zhang, Bo and Chen, Dongdong and Zhang, Pan and Chen, Dong and Liao, Jing and Wen, Fang},
@@ -210,9 +223,33 @@ If you use this work, please cite the original paper:
 }
 ```
 
-## Support
+## 🤝 Contributing
 
-For issues related to:
-- **Setup/Installation**: Check the troubleshooting section
-- **Model Performance**: Refer to the original paper and repository
-- **Code Issues**: Check the GitHub issues of the original repository 
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **Microsoft Research** for the original photo restoration model
+- **Gradio** for the web interface framework
+- **Open source community** for various dependencies
+
+## 📞 Support
+
+If you encounter issues:
+
+1. **Check the troubleshooting section** above
+2. **Use the debug tools** in the Gradio app
+3. **Review the console logs** for error messages
+4. **Open an issue** with detailed information
+
+---
+
+**Made with ❤️ for preserving memories through AI-powered photo restoration** 
